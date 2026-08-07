@@ -1,0 +1,186 @@
+{
+  "identifier": "run.vineyard.typepacks.telegram",
+  "content_type": "vineyard:typepack",
+  "name": "Telegram",
+  "version": "1.0.0",
+  "description": "Telegram entities collected without joining: accounts (people and bots), broadcast channels, supergroups, and their posts. Pairs with the telegram-peek plugin, which materializes these nodes from invite links or public handles via the tgpeek gateway.",
+  "authors": [{ "name": "VINEYARD", "url": "https://vineyard.run" }],
+  "license": "Apache-2.0",
+  "distribution": {
+    "kind": "git",
+    "repository": "https://github.com/Vineyard-Intelligence/typepack-telegram",
+    "ref": "v1.0.0",
+    "path": "typepacks/telegram.json"
+  },
+  "marketing_url": "https://vineyard.run/typepacks/telegram",
+  "thumbnail_url": "https://vineyard.run/typepacks/telegram/icon.png",
+  "types": [
+    {
+      "category": "telegram",
+      "name": "user",
+      "display_name": "Telegram Account",
+      "description": "A Telegram account — a person (is_bot=false) or a bot (is_bot=true). Bots are not a separate node type: they live in the same peer id space and share the same fields.",
+      "label_property": "display_name",
+      "label_template": "{display_name} · @{username}",
+      "icon": "user",
+      "color": "#3B82F6",
+      "identity_properties": ["telegram_id"],
+      "properties": {
+        "telegram_id": { "type": "integer", "description": "Telegram numeric account id (raw peer id)." },
+        "username": { "type": "string", "description": "Public handle without the leading @.", "optional": true },
+        "first_name": { "type": "string", "description": "First name as shown.", "optional": true },
+        "last_name": { "type": "string", "description": "Last name as shown.", "optional": true },
+        "display_name": { "type": "string", "description": "Best display name (first+last joined, or whichever is set)." },
+        "bio": { "type": "text", "description": "Profile bio/about text.", "optional": true },
+        "phone": { "type": "string", "description": "Phone number, when the account exposes it publicly.", "optional": true },
+        "is_bot": { "type": "boolean", "default": false, "description": "True when this account is a bot." },
+        "verified": { "type": "boolean", "default": false, "description": "Blue-verified badge." },
+        "is_premium": { "type": "boolean", "default": false, "description": "Premium subscriber.", "optional": true },
+        "is_scam": { "type": "boolean", "default": false, "description": "Server-flagged as scam.", "optional": true },
+        "is_fake": { "type": "boolean", "default": false, "description": "Server-flagged as impersonating someone.", "optional": true },
+        "profile_url": { "type": "url", "description": "https://t.me/<username> when a username exists.", "optional": true }
+      }
+    },
+    {
+      "category": "telegram",
+      "name": "channel",
+      "display_name": "Telegram Channel",
+      "description": "A broadcast channel (one-way, read-only for subscribers).",
+      "label_property": "title",
+      "label_template": "{title} · @{username}",
+      "icon": "megaphone",
+      "color": "#F59E0B",
+      "identity_properties": ["telegram_id"],
+      "properties": {
+        "telegram_id": { "type": "integer", "description": "Telegram channel id (raw peer id, may carry the -100 prefix)." },
+        "username": { "type": "string", "description": "Public handle without the leading @.", "optional": true },
+        "title": { "type": "string", "description": "Channel display title." },
+        "about": { "type": "text", "description": "Channel description.", "optional": true },
+        "participants_count": { "type": "integer", "description": "Subscriber count.", "optional": true },
+        "verified": { "type": "boolean", "default": false },
+        "is_scam": { "type": "boolean", "default": false, "optional": true },
+        "is_fake": { "type": "boolean", "default": false, "optional": true },
+        "profile_url": { "type": "url", "description": "https://t.me/<username> when a username exists.", "optional": true },
+        "peek": { "type": "boolean", "description": "Server granted temporary peek access (chatInvitePeek) when reached via an invite link — posts readable without joining until expires.", "optional": true },
+        "expires": { "type": "integer", "description": "Peek expiry (unix seconds), when peek is true.", "optional": true }
+      }
+    },
+    {
+      "category": "telegram",
+      "name": "group",
+      "display_name": "Telegram Group",
+      "description": "A group chat. Collectable without joining when public (supergroup); basic groups are private and only reachable via an invite link (info only).",
+      "label_property": "title",
+      "label_template": "{title} · @{username}",
+      "icon": "users",
+      "color": "#10B981",
+      "identity_properties": ["telegram_id"],
+      "properties": {
+        "telegram_id": { "type": "integer", "description": "Telegram group id (raw peer id, may carry the -100 prefix)." },
+        "username": { "type": "string", "description": "Public handle without the leading @ (supergroups only).", "optional": true },
+        "title": { "type": "string", "description": "Group display title." },
+        "about": { "type": "text", "description": "Group description.", "optional": true },
+        "participants_count": { "type": "integer", "description": "Participant count.", "optional": true },
+        "megagroup": { "type": "boolean", "default": true, "description": "True for supergroups (the collectable kind); false for legacy basic groups.", "optional": true },
+        "invite_hash": { "type": "string", "description": "Invite link hash (t.me/+<hash> or t.me/joinchat/<hash>) this group was reached through, when collected from an invite link.", "optional": true },
+        "verified": { "type": "boolean", "default": false, "optional": true },
+        "is_scam": { "type": "boolean", "default": false, "optional": true },
+        "is_fake": { "type": "boolean", "default": false, "optional": true },
+        "profile_url": { "type": "url", "description": "https://t.me/<username> when a username exists.", "optional": true },
+        "peek": { "type": "boolean", "description": "Server granted temporary peek access (chatInvitePeek) when reached via an invite link — posts readable without joining until expires.", "optional": true },
+        "expires": { "type": "integer", "description": "Peek expiry (unix seconds), when peek is true.", "optional": true }
+      }
+    },
+    {
+      "category": "telegram",
+      "name": "post",
+      "display_name": "Telegram Post",
+      "description": "A message/post inside a channel or group. Kept as a node so indicators inside a post (domains, hashes, addresses) can be linked to it — 'this channel spread this indicator'.",
+      "label_property": "text",
+      "icon": "message-square",
+      "color": "#8B5CF6",
+      "identity_properties": ["telegram_id", "message_id"],
+      "properties": {
+        "telegram_id": { "type": "integer", "description": "Owner chat id (channel/group peer id) the post lives in." },
+        "message_id": { "type": "integer", "description": "Message id within the chat." },
+        "text": { "type": "text", "description": "Message text (empty string for media-only posts)." },
+        "date": { "type": "datetime", "description": "Post timestamp (ISO 8601).", "optional": true },
+        "sender_id": { "type": "integer", "description": "Account id that posted it (channels: the channel itself).", "optional": true },
+        "media_kind": { "type": "string", "description": "Normalized media type: photo, document, video, audio, sticker, voice, video_note, web_page, poll, geo, contact, game, none.", "optional": true },
+        "media_url": { "type": "url", "description": "Direct media URL when derivable.", "optional": true },
+        "views": { "type": "integer", "description": "View count (channels).", "optional": true },
+        "forwards": { "type": "integer", "description": "Forward count.", "optional": true },
+        "reply_to_message_id": { "type": "integer", "description": "Message id this post replies to, when inside the same chat.", "optional": true },
+        "url": { "type": "url", "description": "https://t.me/<chat>/<message_id> permalink.", "optional": true }
+      }
+    }
+  ],
+  "edge_types": [
+    {
+      "category": "telegram",
+      "name": "participant_of",
+      "label": "participant of",
+      "display_name": "Participant of",
+      "description": "The account is a participant of the group (from the no-join participant list).",
+      "from": ["telegram.user"],
+      "to": ["telegram.group"],
+      "properties": {
+        "joined_date": { "type": "datetime", "description": "When the participant joined, when known.", "optional": true }
+      }
+    },
+    {
+      "category": "telegram",
+      "name": "admin_of",
+      "label": "admin of",
+      "display_name": "Admin of",
+      "description": "The account holds an admin/creator role in the chat.",
+      "from": ["telegram.user"],
+      "to": ["telegram.group", "telegram.channel"]
+    },
+    {
+      "category": "telegram",
+      "name": "posted_in",
+      "label": "posted in",
+      "display_name": "Posted in",
+      "description": "The post was published in the chat.",
+      "from": ["telegram.post"],
+      "to": ["telegram.group", "telegram.channel"]
+    },
+    {
+      "category": "telegram",
+      "name": "forwarded_from",
+      "label": "forwarded from",
+      "display_name": "Forwarded from",
+      "description": "The post is a forward of another post (spread/provenance chain).",
+      "from": ["telegram.post"],
+      "to": ["telegram.post"]
+    },
+    {
+      "category": "telegram",
+      "name": "replied_to",
+      "label": "replied to",
+      "display_name": "Replied to",
+      "description": "The post replies to another post in the same chat (thread structure).",
+      "from": ["telegram.post"],
+      "to": ["telegram.post"]
+    },
+    {
+      "category": "telegram",
+      "name": "links_to",
+      "label": "links to",
+      "display_name": "Links to",
+      "description": "Evidence chain: a web URL (e.g. an invite link or t.me handle URL) points at this Telegram entity. Kept so 'this URL resolved to this chat' survives in the graph.",
+      "from": ["web.url"],
+      "to": ["telegram.user", "telegram.channel", "telegram.group"]
+    },
+    {
+      "category": "telegram",
+      "name": "same_as",
+      "label": "same as",
+      "display_name": "Same as",
+      "description": "The Telegram entity is the same real-world identity as a basic-pack identity node (e.g. telegram.user → identity.user_account for cross-platform attribution).",
+      "from": ["telegram.user", "telegram.channel", "telegram.group"],
+      "to": ["identity.user_account", "identity.person"]
+    }
+  ]
+}

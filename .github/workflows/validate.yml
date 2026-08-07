@@ -1,0 +1,33 @@
+name: validate
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: pip install jsonschema
+      - name: Fetch the Type Pack schema
+        run: curl -fsSL https://raw.githubusercontent.com/Vineyard-Intelligence/registry/main/schemas/typepack.schema.json -o /tmp/typepack.schema.json
+      - name: Validate type packs
+        run: |
+          python - <<'PY'
+          import glob, json, sys
+          from jsonschema import Draft202012Validator
+          v = Draft202012Validator(json.load(open("/tmp/typepack.schema.json")))
+          bad = 0
+          for p in sorted(glob.glob("typepacks/*.json")):
+              errs = sorted(v.iter_errors(json.load(open(p))), key=lambda e: list(e.path))
+              if errs:
+                  bad += 1
+                  print(f"::error file={p}::{len(errs)} schema error(s)")
+                  for e in errs[:5]:
+                      print("   ", list(e.path), e.message)
+          print("all type packs valid" if not bad else f"{bad} invalid")
+          sys.exit(1 if bad else 0)
+          PY
