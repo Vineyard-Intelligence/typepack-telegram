@@ -20,7 +20,7 @@ Telegram 엔티티 타입팩 — VINEYARD Type Pack (`vineyard:typepack`).
 - `posted_in` — `telegram.post → telegram.group|channel`
 - `forwarded_from` / `replied_to` — `telegram.post → telegram.post` (확산 체인 / 스레드)
 - `links_to` — **`web.url → telegram.*` 증거 체인** (크로스팩: infrastructure 팩의 `web.url`; "이 URL이 이 채팅을 가리켰다" 보존)
-- `same_as` — `telegram.* → identity.user_account|person` (크로스팩 귀속)
+- `same_as` — `telegram.* → identity.account|person` (크로스팩 귀속)
 
 ## 설계 메모
 
