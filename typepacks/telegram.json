@@ -2,7 +2,7 @@
   "identifier": "run.vineyard.typepacks.telegram",
   "content_type": "vineyard:typepack",
   "name": "Telegram",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Telegram entities collected without joining: accounts (people and bots), broadcast channels, supergroups, and their posts. Pairs with the telegram-peek plugin, which materializes these nodes from invite links or public handles via the tgpeek gateway.",
   "authors": [
     {
@@ -14,7 +14,7 @@
   "distribution": {
     "kind": "git",
     "repository": "https://github.com/Vineyard-Intelligence/typepack-telegram",
-    "ref": "v1.2.0",
+    "ref": "v1.3.0",
     "path": "typepacks/telegram.json"
   },
   "marketing_url": "https://vineyard.run/typepacks/telegram",
@@ -425,7 +425,7 @@
       "name": "same_as",
       "label": "same as",
       "display_name": "Same as",
-      "description": "The Telegram entity is the same real-world identity as a basic-pack identity node (e.g. telegram.user → identity.account for cross-platform attribution).",
+      "description": "The Telegram entity is the same real-world identity as a basic-pack identity node (e.g. telegram.user → identity.account, or telegram.user → identity.phone_number for phone-lookup attribution).",
       "from": [
         "telegram.user",
         "telegram.channel",
@@ -433,7 +433,8 @@
       ],
       "to": [
         "identity.account",
-        "identity.person"
+        "identity.person",
+        "identity.phone_number"
       ]
     }
   ]
