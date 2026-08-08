@@ -2,7 +2,7 @@
   "identifier": "run.vineyard.typepacks.telegram",
   "content_type": "vineyard:typepack",
   "name": "Telegram",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Telegram entities collected without joining: accounts (people and bots), broadcast channels, supergroups, and their posts. Pairs with the telegram-peek plugin, which materializes these nodes from invite links or public handles via the tgpeek gateway.",
   "authors": [
     {
@@ -14,7 +14,7 @@
   "distribution": {
     "kind": "git",
     "repository": "https://github.com/Vineyard-Intelligence/typepack-telegram",
-    "ref": "v1.1.0",
+    "ref": "v1.2.0",
     "path": "typepacks/telegram.json"
   },
   "marketing_url": "https://vineyard.run/typepacks/telegram",
@@ -39,7 +39,12 @@
         },
         "username": {
           "type": "string",
-          "description": "Public handle without the leading @.",
+          "description": "Public handle without the leading @ (the primary one, when the account has several).",
+          "optional": true
+        },
+        "usernames": {
+          "type": "text",
+          "description": "All active handles on this account, one per line — Telegram's collectible/multi-username feature lets an account hold more than one.",
           "optional": true
         },
         "first_name": {
@@ -120,7 +125,12 @@
         },
         "username": {
           "type": "string",
-          "description": "Public handle without the leading @.",
+          "description": "Public handle without the leading @ (the primary one, when the channel has several).",
+          "optional": true
+        },
+        "usernames": {
+          "type": "text",
+          "description": "All active handles on this channel, one per line — Telegram's collectible/multi-username feature lets a channel hold more than one.",
           "optional": true
         },
         "title": {
@@ -187,7 +197,12 @@
         },
         "username": {
           "type": "string",
-          "description": "Public handle without the leading @ (supergroups only).",
+          "description": "Public handle without the leading @ (supergroups only; the primary one, when the group has several).",
+          "optional": true
+        },
+        "usernames": {
+          "type": "text",
+          "description": "All active handles on this group, one per line — Telegram's collectible/multi-username feature lets a group hold more than one.",
           "optional": true
         },
         "title": {
