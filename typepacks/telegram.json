@@ -2,7 +2,7 @@
   "identifier": "run.vineyard.typepacks.telegram",
   "content_type": "vineyard:typepack",
   "name": "Telegram",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Telegram entities collected without joining: accounts (people and bots), broadcast channels, supergroups, and their posts. Pairs with the telegram-peek plugin, which materializes these nodes from invite links or public handles via the tgpeek gateway.",
   "authors": [
     {
@@ -14,7 +14,7 @@
   "distribution": {
     "kind": "git",
     "repository": "https://github.com/Vineyard-Intelligence/typepack-telegram",
-    "ref": "v1.4.0",
+    "ref": "v1.5.0",
     "path": "typepacks/telegram.json"
   },
   "marketing_url": "https://vineyard.run/typepacks/telegram",
@@ -26,7 +26,7 @@
       "display_name": "Telegram Account",
       "description": "A Telegram account — a person (is_bot=false) or a bot (is_bot=true). Bots are not a separate node type: they live in the same peer id space and share the same fields.",
       "label_property": "display_name",
-      "label_template": "{display_name} · @{username}",
+      "label_template": "{display_name} ({telegram_id})",
       "icon": "user",
       "color": "#3B82F6",
       "identity_properties": [
@@ -112,7 +112,7 @@
       "display_name": "Telegram Channel",
       "description": "A broadcast channel (one-way, read-only for subscribers).",
       "label_property": "title",
-      "label_template": "{title} · @{username}",
+      "label_template": "{title} ({telegram_id})",
       "icon": "megaphone",
       "color": "#F59E0B",
       "identity_properties": [
@@ -184,7 +184,7 @@
       "display_name": "Telegram Group",
       "description": "A group chat. Collectable without joining when public (supergroup); basic groups are private and only reachable via an invite link (info only).",
       "label_property": "title",
-      "label_template": "{title} · @{username}",
+      "label_template": "{title} ({telegram_id})",
       "icon": "users",
       "color": "#10B981",
       "identity_properties": [
