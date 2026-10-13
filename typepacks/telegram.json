@@ -11,12 +11,6 @@
     }
   ],
   "license": "Apache-2.0",
-  "distribution": {
-    "kind": "git",
-    "repository": "https://github.com/Vineyard-Intelligence/typepack-telegram",
-    "ref": "v1.5.0",
-    "path": "typepacks/telegram.json"
-  },
   "marketing_url": "https://vineyard.run/typepacks/telegram",
   "thumbnail_url": "https://vineyard.run/typepacks/telegram/icon.png",
   "types": [
@@ -328,115 +322,6 @@
           "optional": true
         }
       }
-    }
-  ],
-  "edge_types": [
-    {
-      "category": "telegram",
-      "name": "participant_of",
-      "label": "participant of",
-      "display_name": "Participant of",
-      "description": "The account is a participant of the group (from the no-join participant list).",
-      "from": [
-        "telegram.user"
-      ],
-      "to": [
-        "telegram.group"
-      ],
-      "properties": {
-        "joined_date": {
-          "type": "datetime",
-          "description": "When the participant joined, when known.",
-          "optional": true
-        }
-      }
-    },
-    {
-      "category": "telegram",
-      "name": "admin_of",
-      "label": "admin of",
-      "display_name": "Admin of",
-      "description": "The account holds an admin/creator role in the chat.",
-      "from": [
-        "telegram.user"
-      ],
-      "to": [
-        "telegram.group",
-        "telegram.channel"
-      ]
-    },
-    {
-      "category": "telegram",
-      "name": "posted_in",
-      "label": "posted in",
-      "display_name": "Posted in",
-      "description": "The post was published in the chat.",
-      "from": [
-        "telegram.post"
-      ],
-      "to": [
-        "telegram.group",
-        "telegram.channel"
-      ]
-    },
-    {
-      "category": "telegram",
-      "name": "forwarded_from",
-      "label": "forwarded from",
-      "display_name": "Forwarded from",
-      "description": "The post is a forward of another post (spread/provenance chain).",
-      "from": [
-        "telegram.post"
-      ],
-      "to": [
-        "telegram.post"
-      ]
-    },
-    {
-      "category": "telegram",
-      "name": "replied_to",
-      "label": "replied to",
-      "display_name": "Replied to",
-      "description": "The post replies to another post in the same chat (thread structure).",
-      "from": [
-        "telegram.post"
-      ],
-      "to": [
-        "telegram.post"
-      ]
-    },
-    {
-      "category": "telegram",
-      "name": "links_to",
-      "label": "links to",
-      "display_name": "Links to",
-      "description": "Evidence chain: a web URL (e.g. an invite link or t.me handle URL) points at this Telegram entity. Kept so 'this URL resolved to this chat' survives in the graph.",
-      "from": [
-        "web.url"
-      ],
-      "to": [
-        "telegram.user",
-        "telegram.channel",
-        "telegram.group"
-      ]
-    },
-    {
-      "category": "telegram",
-      "name": "same_as",
-      "label": "same as",
-      "display_name": "Same as",
-      "description": "The Telegram entity is the same real-world identity as a basic-pack identity node (e.g. telegram.user → identity.account, or telegram.user → identity.phone_number / identity.handle for lookup attribution).",
-      "from": [
-        "telegram.user",
-        "telegram.channel",
-        "telegram.group"
-      ],
-      "to": [
-        "identity.account",
-        "identity.person",
-        "identity.phone_number",
-        "identity.handle"
-      ]
     }
   ]
 }

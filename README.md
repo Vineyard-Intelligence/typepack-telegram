@@ -14,19 +14,11 @@ Telegram 엔티티 타입팩 — VINEYARD Type Pack (`vineyard:typepack`).
 | `telegram.group` | `title` | users | `telegram_id` | 그룹/슈퍼그룹. `invite_hash` 프로퍼티로 초대 링크 도달 경로 보존 |
 | `telegram.post` | `text` | message-square | `telegram_id`+`message_id` | 게시글. 게시글 내 지표(도메인/해시/주소)를 post에 연결하기 위해 노드로 유지 |
 
-## 엣지 (category: `telegram`)
-
-- `participant_of` / `admin_of` — `telegram.user → telegram.group`(/channel)
-- `posted_in` — `telegram.post → telegram.group|channel`
-- `forwarded_from` / `replied_to` — `telegram.post → telegram.post` (확산 체인 / 스레드)
-- `links_to` — **`web.url → telegram.*` 증거 체인** (크로스팩: infrastructure 팩의 `web.url`; "이 URL이 이 채팅을 가리켰다" 보존)
-- `same_as` — `telegram.* → identity.account|person` (크로스팩 귀속)
-
 ## 설계 메모
 
 - **id 공간**: 텔레그램은 user id와 채널/그룹 id가 같은 숫자 공간을 공유(채널은 `-100...` 접두) → `telegram_id`는 **타입별 고유**로 충분하되 raw peer id(접두 포함)를 보존.
 - **봇 = user 플래그**: 분리 시 "봇도 계정"이라는 사실이 타입 체계에서 사라짐.
-- **MAJOR 버전**: 타입 제거/정체성 변경 시에만. 프로퍼티·엣지 추가는 minor(additive).
+- **MAJOR 버전**: 타입 제거/정체성 변경 시에만. 프로퍼티 추가는 minor(additive).
 
 ## 검증
 
