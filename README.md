@@ -2,7 +2,7 @@
 
 Telegram 엔티티 타입팩 — VINEYARD Type Pack (`vineyard:typepack`).
 
-채널/그룹/계정을 **가입하지 않고** 수집하는 tgpeek 게이트웨이 + telegram-peek 플러그인과 짝을 이룹니다.
+채널/그룹/계정을 **가입하지 않고** 수집하는 Telegram 플러그인 팩과 짝을 이룹니다.
 게이트웨이가 반환하는 데이터가 이 팩의 타입/프로퍼티에 거의 1:1로 매핑됩니다.
 
 ## 타입 (category: `telegram`)
